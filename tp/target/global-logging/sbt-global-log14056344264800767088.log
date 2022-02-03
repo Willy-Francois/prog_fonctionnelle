@@ -1,0 +1,47 @@
+[debug] > Exec(early(addDefaultCommands), None, None)
+[debug] > Exec(addDefaultCommands, None, None)
+[debug] > Exec(early(initialize), None, None)
+[debug] > Exec(initialize, None, None)
+[debug] > Exec(boot, None, None)
+[debug] > Exec(writeSbtVersion, None, None)
+[debug] > Exec(reload, None, None)
+[debug] > Exec(sbtStashOnFailure, None, None)
+[debug] > Exec(onFailure loadFailed, None, None)
+[debug] > Exec(loadp, None, None)
+[info] welcome to sbt 1.5.8 (Ubuntu Java 11.0.11)
+[debug] Load.defaultLoad until apply took 959.075001ms
+[debug]           Load.loadUnit: plugins took 271.960647ms
+[debug]           Load.loadUnit: defsScala took 0.352182ms
+[debug] [Loading] Scanning directory /home/ann2/francoisw/AlgoAvancé/prog_fonctionnelle/tp/project
+[debug] [Loading] Found non-root projects 
+[debug] [Loading] Done in /home/ann2/francoisw/AlgoAvancé/prog_fonctionnelle/tp/project, returning: ()
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 77.751091 ms
+[debug]               Load.resolveProject(tp-build) took 128.062734ms
+[debug]             Load.loadTransitive: finalizeProject(Project(id tp-build, base: /home/ann2/francoisw/AlgoAvancé/prog_fonctionnelle/tp/project, plugins: List(<none>))) took 314.019028ms
+[debug] [Loading] Done in /home/ann2/francoisw/AlgoAvancé/prog_fonctionnelle/tp/project, returning: (tp-build)
+[debug]           Load.loadUnit: loadedProjectsRaw took 376.279901ms
+[debug]           Load.loadUnit: cleanEvalClasses took 0.291527ms
+[debug]         Load.loadUnit(file:/home/ann2/francoisw/AlgoAvancé/prog_fonctionnelle/tp/project/, ...) took 666.444203ms
+[debug]       Load.apply: load took 892.274907ms
+[debug]       Load.apply: resolveProjects took 6.860107ms
+[debug]       Load.apply: finalTransforms took 122.069952ms
+[debug]       Load.apply: config.delegates took 6.764976ms
+[debug]       Load.apply: Def.make(settings)... took 674.792334ms
+[debug]       Load.apply: structureIndex took 135.696828ms
+[debug]       Load.apply: mkStreams took 3.218148ms
+[info] loading project definition from /home/ann2/francoisw/AlgoAvancé/prog_fonctionnelle/tp/project
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[warn] scala-xml_2.12-1.0.6.jar no longer exists at /home/ann2/francoisw/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.12/1.0.6/scala-xml_2.12-1.0.6.jar
