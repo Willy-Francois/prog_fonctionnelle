@@ -1,6 +1,7 @@
 import jdk.management.jfr.RecordingInfo
 
 import scala.collection.immutable.List
+import scala.math.Ordering
 
 object TP3Ex1:
 
@@ -9,24 +10,52 @@ object TP3Ex1:
    * deux systèmes on obtient donc 8 possibilités. Créez un ou plusieurs types de données pour modéliser les groupes
    * sanguins. */
 
+  enum ABO :
+    case A
+    case B
+    case AB
+    case O;
+
+  enum Rhesus :
+    case +
+    case -;
+
   /* Remplacez cette déclaration de type par une définition utilisant 'enum'*/
-  type BloodGroup = Nothing
+  enum BloodGroup :
+    case Group(x : ABO, y: Rhesus);
+
+
+  // impossible car infinité de possiblité--> BloodGroup.Rhesus("Willy", "François")
 
   /* Complétez la fonction suivante */
   def valueOf(s: String): BloodGroup = s match
-    case "A+" => ???
-    case "B+" => ???
-    case "AB+" => ???
-    case "O+" => ???
-    case "A-" => ???
-    case "B-" => ???
-    case "AB-" => ???
-    case "O-" => ???
+    case "A+" => BloodGroup.Group(ABO.A, Rhesus.+)
+    case "B+" => BloodGroup.Group(ABO.B, Rhesus.+)
+    case "AB+" => BloodGroup.Group(ABO.AB, Rhesus.+)
+    case "O+" => BloodGroup.Group(ABO.O, Rhesus.+)
+    case "A-" => BloodGroup.Group(ABO.A, Rhesus.-)
+    case "B-" => BloodGroup.Group(ABO.B, Rhesus.-)
+    case "AB-" => BloodGroup.Group(ABO.AB, Rhesus.-)
+    case "O-" => BloodGroup.Group(ABO.O, Rhesus.-)
     case _ => throw new IllegalArgumentException
 
   /* Définissez une fonction qui retourne 'true' si et seulement si la transfusion de sang de type 'donor' est possible
    * pour un receveur de type 'recipient' (cf. https://fr.wikipedia.org/wiki/Groupe_sanguin#Compatibilit%C3%A9) */
-  def compatible(donor: BloodGroup, recipient: BloodGroup): Boolean = ???
+  def ABOcompatible (donor: ABO, recipient: ABO): Boolean = (donor, recipient) match
+    case (ABO.O, _) => true
+    case (_, ABO.AB) => true
+    case (ABO.AB, ABO.AB) => true
+    case (ABO.O, ABO.O) => true
+    case (ABO.A, ABO.A) => true
+    case (ABO.B, ABO.B) => true
+    case _ => false
+
+  def RHESUScompatible (donor: Rhesus, recipient: Rhesus): Boolean = (donor, recipient) match
+    case (Rhesus.+, Rhesus.-) => false
+    case _ => true
+
+  def compatible(donor: BloodGroup, recipient: BloodGroup): Boolean = (donor, recipient) match
+    case (BloodGroup.Group(a, b), BloodGroup.Group(x, y)) => ABOcompatible(a, x) && RHESUScompatible(b, y)
 
 
 object TP3Ex2:
@@ -40,7 +69,13 @@ object TP3Ex2:
     case Mult(e1: ArithExpr, e2: ArithExpr)
 
   /* Définissez une fonction pour évaluer une expression arithmétique. */
-  def eval(e: ArithExpr): Double = ???
+  def eval(e: ArithExpr): Double = e match {
+    case ArithExpr.Constant(v) => v
+    case ArithExpr.Neg(e) => eval(e) * -1
+    case ArithExpr.Add(e1, e2) => eval(e1) + eval(e2)
+    case ArithExpr.Sub(e1, e2) => eval(e1) - eval(e2)
+    case ArithExpr.Mult(e1, e2) => eval(e1) * eval(e2)
+  }
 
 
 object TP3Ex3:
@@ -51,24 +86,38 @@ object TP3Ex3:
    * - x :: xs (avec x: A et xs: List[A]) */
 
   /* Retourne la longueur de la liste */
-  def length(l: List[Any]): Int = ???
+  def length(l: List[Any]): Int = l match {
+    case Nil => 0
+    case _ :: xs => length(xs)+1
+  }
 
   /* Retourne 'true ' si et seulement si x est contenu dans l */
-  def elem[A](x: A, l: List[A]): Boolean = ???
+  def elem[A](x: A, l: List[A]): Boolean = l match {
+    case Nil => false
+    case y :: xs => x==y || elem(x, xs)
+  }
 
   /* Retourne la liste l privée de la première occurrence de l'élément a (si l'élément n'est pas présent, retourne une
    * une liste identique à l) */
-  def remove[A](a: A, l: List[A]): List[A] = ???
+  def remove[A](a: A, l: List[A]): List[A] = l match {
+    case Nil => Nil
+    case x :: y => if x==a then y else remove(a, y)
+  }
 
   /* Retourne la concaténation de l1 et l2 */
-  def append[A](l1: List[A], l2: List[A]): List[A] = ???
+  def append[A](l1: List[A], l2: List[A]): List[A] = (l1,l2) match {
+    case (Nil, _) => l2
+    case (_, Nil) => l1
+    case (x :: xs, _) => x :: append(xs, l2) 
+  }
+
 
   /* Créé une liste contenant exactement n fois l'élément x */
-  def replicate[A](x: A, n: Int): List[A] =
+  def replicate[A](x: A, n: Int): List[A] = 
     if n < 0 then
       throw new IllegalArgumentException("negative integer")
     else
-      ???
+      list.fill(x, n);
 
   /* Retourne 'true' si et seulement si la liste ne contient pas deux fois le même élément */
   def unique(l: List[Any]): Boolean = ???
