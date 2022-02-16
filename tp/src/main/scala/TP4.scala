@@ -1,4 +1,5 @@
 import scala.math
+//import scala.collection.mutable._
 
 object TP4Ex1:
 
@@ -12,13 +13,17 @@ object TP4Ex1:
   /* Donnez une définition concrète à ce type de données. Quelle est la complexité des différentes opérations? */
   class ListQueue[A](l: List[A] = Nil) extends Queue[A]:
 
-    override def enqueue(a: A): Queue[A] = ???
+    override def enqueue(a: A): Queue[A] = ListQueue(a::this.l) ;
 
-    override def dequeue(): Queue[A] = ???
+    override def dequeue(): Queue[A] = l match {
+      case Nil => ListQueue(Nil)
+      case x :: Nil => ListQueue(Nil)
+      case x :: xs => ListQueue(xs).dequeue().enqueue(x)
+    }
 
-    override def peek(): A = ???
+    override def peek(): A = this.l.last;
 
-    override def isEmpty(): Boolean = ???
+    override def isEmpty(): Boolean = this.l.isEmpty;
 
   /* Afin d'améliorer la complexité, on peut utiliser une implémentation basée sur deux listes:
    * - front contient les premiers éléments ajoutés, de telle manière que front.head est le plus ancien élément de la
@@ -32,7 +37,7 @@ object TP4Ex1:
    */
   class DoubleListQueue[A](front: List[A] = Nil, rear: List[A] = Nil) extends Queue[A]:
 
-    override def enqueue(a: A): Queue[A] = ???
+    override def enqueue(a: A): Queue[A] = DoubleListQueue(front:::rear);
 
     override def dequeue(): Queue[A] = ???
 

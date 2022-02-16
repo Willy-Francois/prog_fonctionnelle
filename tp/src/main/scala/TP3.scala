@@ -113,31 +113,61 @@ object TP3Ex3:
 
 
   /* Créé une liste contenant exactement n fois l'élément x */
-  def replicate[A](x: A, n: Int): List[A] = 
-    if n < 0 then
-      throw new IllegalArgumentException("negative integer")
-    else
-      list.fill(x, n);
+  def replicate[A](x: A, n: Int): List[A] =
+      if n < 0 then
+        throw new IllegalArgumentException("negative integer")
+      else
+        if n==1 then x::Nil else x::replicate(x,n-1)
 
   /* Retourne 'true' si et seulement si la liste ne contient pas deux fois le même élément */
-  def unique(l: List[Any]): Boolean = ???
+  def unique(l: List[Any]): Boolean = l match {
+    case Nil => true
+    case x::l2 => !elem(x,l2) && unique(l2)
+  }
 
   /* Retourne 'true' si et seulement si l1 est une permutation de l2 (c'est-à-dire contient les mêmes éléments, pas
      nécessairement dans le même ordre) */
-  def permutation(l1: List[Any], l2: List[Any]): Boolean = ???
+  def permutation(l1: List[Any], l2: List[Any]): Boolean = (l1,l2) match {
+    case (Nil,Nil) => true
+    case (l1,Nil) => false
+    case (Nil,l2) => false
+    case (x::l,l2) => if elem(x,l2) then permutation(l,remove(x,l2)) else false
+  }
+
 
   /* Retourne les n premiers éléments de la liste l */
-  def take[A](n: Int, l: List[A]): List[A] = ???
+  def take[A](n: Int, l: List[A]): List[A] = (n,l) match {
+    case (n,Nil) => Nil
+    case (0,l) => Nil
+    case (n,x::l2) => x::take(n-1,l2)
+  }
 
   /* Retourne les (length(l) - n) derniers éléments de la liste l */
-  def drop[A](n: Int, l: List[A]): List[A] = ???
+  def drop[A](n: Int, l: List[A]): List[A] = (n,l) match {
+    case (n,Nil) => Nil
+    case (0,l) => l
+    case (n,x::l2) => drop(n-1,l2)
+  }
 
   /* Retourne la liste l en sens inverse. */
-  def reverse[A](l: List[A]): List[A] = ???
+  def reverse[A](l: List[A]): List[A] = l match {
+    case Nil => Nil
+    case x::l2 => reverse(l2) ::: List(x)
+  }
 
   /* Joint deux listes pour former une liste de pairs. La liste retournée sera seulement aussi longue que la plus courte
    * des deux listes passées en argument). */
-  def zip[A,B](l1: List[A], l2: List[B]): List[(A,B)] = ???
+  def zip[A,B](l1: List[A], l2: List[B]): List[(A,B)] = (l1,l2) match {
+    case (Nil,l2) => Nil
+    case (l1,Nil) => Nil
+    case (x::l3,y::l4) => (x,y)::zip(l3,l4)
+  }
+
+  def isSort(l: List[Int]): Boolean = l match {
+    case Nil => true
+    case x::Nil => true
+    case x::y::l2 => if x<y then isSort(y::l2) else false
+  }
 
   /* Trie une liste d'entiers. */
   def sort(l: List[Int]): List[Int] = ???
