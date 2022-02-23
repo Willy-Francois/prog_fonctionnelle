@@ -1,3 +1,5 @@
+import sun.security.util.Length
+
 object TP5Ex1:
 
   /* La fonction suivante calcule la moyenne d'une liste de nombre. Son évaluation traverse la liste deux fois: une
@@ -6,7 +8,15 @@ object TP5Ex1:
     if l.isEmpty then 0.0 else l.sum / l.length
 
   /* Définissez une fonction qui effectue le même calcul, en ne traversant la liste qu'une seule fois. */
-  def onePassAverage(l: List[Double]): Double = ???
+  def onePassAverage(l: List[Double]): Double = l match {
+    case Nil => 0
+    case _ => auxAvg(l, 0, 0);
+  }
+
+  def auxAvg(l: List[Double], acc : Double, summ: Double ): Double = l match {
+    case Nil => summ/acc
+    case _ => auxAvg(l.tail, acc + 1 , l.head+summ)
+  }
 
   @main def mainTP5Ex1 =
     val r = scala.util.Random
@@ -18,6 +28,8 @@ object TP5Ex1:
     val start2 = System.nanoTime
     val res2 = onePassAverage(l)
     val time2 = System.nanoTime - start2
+    println(res1);
+    println(res2)
     assert(res1 == res2)
     println(f"Average of list is ${res1}%1.3f")
     println(f"Computed in ${time1 / 1e6}%1.2f ms with naive function")
@@ -27,7 +39,15 @@ object TP5Ex1:
 object TP5Ex2:
 
   /* Définissez une fonction récursive terminale pour calculer la factorielle d'un nombre. */
-  def tailRecursiveFactorial(n: BigInt): BigInt = ???
+  def tailRecursiveFactorial(n: BigInt): BigInt = n match {
+    case 0 => 1
+    case _ => auxRecursive(n, 1)
+  }
+
+  def auxRecursive(n: BigInt, acc: BigInt): BigInt = n match {
+    case 0 => acc*1
+    case _ => auxRecursive(n-1, acc*n)
+  }
 
   @main def mainTP5Ex2 =
     val n = 2000
@@ -38,6 +58,8 @@ object TP5Ex2:
     val start2 = System.nanoTime
     val res2 = tailRecursiveFactorial(n)
     val time2 = System.nanoTime - start2
+    println(res1);
+    println(res2);
     assert(res1 == res2)
     println(s"Factorial of ${n} is ${res1}")
     println(f"Computed in ${time1 / 1e6}%1.2f ms with naive function")
@@ -49,7 +71,14 @@ object TP5Ex3:
   /* Définissez une fonction récursive terminale pour inverser une liste.
    *
    * Quelle est sa complexité? Quelle est la complexité de la version définie dans le TP3? */
-  def optimizedReverse[A](l: List[A]): List[A] = ???
+  def optimizedReverse[A](l: List[A]): List[A] = l match {
+    case _ => auxReverse(l, Nil)
+  }
+
+  def auxReverse[A](l: List[A], acc: List[A]): List[A] = l match {
+    case Nil => acc
+    case x :: xs => auxReverse(xs, x :: acc)
+  }
 
   @main def mainTP5Ex3 =
     val r = scala.util.Random
@@ -61,6 +90,8 @@ object TP5Ex3:
     val start2 = System.nanoTime
     val res2 = optimizedReverse(l)
     val time2 = System.nanoTime - start2
+    println(res1);
+    println(res2);
     assert(res1 == res2)
     println(s"Head of reversed list is ${res1.head}")
     println(f"Computed in ${time1 / 1e6}%1.2f ms with naive function")
@@ -79,7 +110,15 @@ object TP5Ex4:
       naiveFibonacci(n - 1) + naiveFibonacci(n - 2)
 
   /* Définissez une fonction de complexité linéaire pour calculer le même résultat. */
-  def optimizedFibonacci(n: Int): Int = ???
+  def optimizedFibonacci(n: Int): Int = n match {
+    case 0 => 1
+    case _ => auxFibonacci(n, 0, 1)
+  }
+
+  def auxFibonacci(n: Int, aux1: Int, aux2: Int ): Int = n match {
+    case 1 => aux1+aux2
+    case _ => auxFibonacci(n-1, aux1+aux2, aux1)
+  }
 
   @main def mainTP5Ex4 =
     val n = 42
@@ -90,6 +129,8 @@ object TP5Ex4:
     val start2 = System.nanoTime
     val res2 = optimizedFibonacci(n)
     val time2 = System.nanoTime - start2
+    println(res1)
+    println(res2)
     assert(res1 == res2)
     println(s"the ${n}th Fibonnaci number is ${naiveFibonacci(n)}")
     println(f"Computed in ${time1 / 1e6}%1.2f ms with naive function")
@@ -105,8 +146,15 @@ object TP5Ex5:
   def fastExponentiation(b: BigInt, n: Int): BigInt =
     if n < 0 then
       throw new IllegalArgumentException("negative integer")
+    else if n/2<1 then
+      b
+    else if (n%2==0) then
+      fastExponentiation(b, n/2) * fastExponentiation(b, n/2)
     else
-      ???
+      b * fastExponentiation(b, (n-1)/2) * fastExponentiation(b, (n-1)/2)
+
+
+
 
   @main def mainTP5Ex5 =
     val b = 3
@@ -118,6 +166,8 @@ object TP5Ex5:
     val start2 = System.nanoTime
     val res2 = fastExponentiation(b, n)
     val time2 = System.nanoTime - start2
+    println(res1)
+    println(res2)
     assert(res1 == res2)
     println(s"${b} raised to the power of ${n} is ${res1}")
     println(f"Computed in ${time1 / 1e6}%1.2f ms with naive function")
